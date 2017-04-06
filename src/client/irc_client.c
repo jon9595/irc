@@ -66,3 +66,33 @@ int main(int argc, char** argv) {
 
     return 0;
 }
+
+int client_create_connection(const char *host, const char *port, struct addrinfo *res) {
+
+    int status;
+    //int socket_fd;
+    struct addrinfo hints;
+
+    memset(&hints, 0, sizeof(hints));
+    hints.ai_family = AF_INET; //using IPv4 mode
+    hints.ai_socktype = SOCK_STREAM; //creating a TCP connection
+
+    if((status = getaddrinfo(host, port, &hints, &res)) != 0) {
+        fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(status));
+        return -1;
+    }
+
+    return 0; //TODO: return fd
+}
+
+int client_destroy_connection(int fd, struct addrinfo *res) {
+
+    if(fd < 0 || res == NULL) {
+        return -1;
+    }
+
+    close(fd);
+    freeaddrinfo(res);
+
+    return 0;
+}
