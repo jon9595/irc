@@ -11,8 +11,8 @@
 
 int main(int argc, char** argv) {
 
-    if(argc != 2) {
-        fprintf(stderr, "Usage: ./server <port>\n");
+    if(argc != 3) {
+        fprintf(stderr, "Usage: ./server <IP> <port>\n");
         return 1;
     }
 
@@ -25,9 +25,8 @@ int main(int argc, char** argv) {
     memset(&hints, 0, sizeof(hints));
     hints.ai_family = AF_INET; //IPv4 mode
     hints.ai_socktype = SOCK_STREAM; //TCP
-    hints.ai_flags = AI_PASSIVE;
 
-    if((status = getaddrinfo(argv[1], NULL, &hints, &res)) != 0) {
+    if((status = getaddrinfo(argv[1], argv[2], &hints, &res)) != 0) {
         fprintf(stderr, "getaddrinfo error: %s\n", gai_strerror(status));
         return 2;
     }
@@ -57,17 +56,23 @@ int main(int argc, char** argv) {
         perror("accept error");
     }
 
-    char *test = "Test message!";
+    char msg[25];
     int len, bytes_sent;
 
-    len = strlen(test);
-    bytes_sent = send(s_fd, test, len, 0);
+    printf("Enter a message to send from server: ");
+    scanf("%s", msg);
+
+    len = strlen(msg);
+    bytes_sent = send(n_fd, msg, len, 0);
+
+    printf("Sent %d bytes!\n", bytes_sent);
 
     if(bytes_sent == -1) {
         perror("send error");
     }
 
     close(s_fd);
+    close(n_fd);
     freeaddrinfo(res);
 
     return 0;
