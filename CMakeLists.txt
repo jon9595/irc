@@ -7,8 +7,8 @@ set(CMAKE_CXX_FLAGS "-std=c++11 ${SHARED_FLAGS}")
 
 include_directories(include)
 
-add_executable(client src/irc_client.c)
-add_executable(server src/irc_server.c)
+add_executable(client src/client/irc_client.c)
+add_executable(server src/server/irc_server.c)
 
 install(FILES include/irc_client.h DESTINATION include)
 install(FILES include/irc_server.h DESTINATION include)
