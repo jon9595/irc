@@ -12,5 +12,7 @@ add_library(client_core SHARED src/client/irc_client.c)
 add_executable(client src/client/irc_client_gui.c)
 add_executable(server src/server/irc_server.c)
 
+target_link_libraries(client ncurses)
+
 install(FILES include/irc_client.h DESTINATION include)
 install(FILES include/irc_server.h DESTINATION include)

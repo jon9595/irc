@@ -1,4 +1,4 @@
-#include <ncurses.h>
+#include </usr/include/ncurses.h>
 #include <string.h>
 
 #include "irc_client.h"
